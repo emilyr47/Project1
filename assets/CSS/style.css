@@ -1,5 +1,14 @@
 .jumbotron {
-    
+    background-image: url("../images/background.jpg");
+    background-size: 100%;
+}
 
+.container {
+    text-align: center;    
+}
+
+form {
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
