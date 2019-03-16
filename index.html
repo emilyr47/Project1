@@ -4,14 +4,30 @@
 <head>
 <meta charset="UTF-8">
 <title>First Group Project</title>
+
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+<!--Reset Stylesheet-->
 <link rel="stylesheet" href="assets/css/reset.css">
+
+<!--Bootstrap-->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!--CSS Stylesheet-->
 <link rel="stylesheet" href="assets/css/style.css">
+
+<!--jQuery-->
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+<!--Moment JS-->
+<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 
 <body>
 
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" id="jumbo">
         <div class="container">
           <h1 class="display-4">Birthday Tracker</h1>
           <p class="lead">Forgot who has a birthday?.. or when?.. or what they want? We got you!</p>
@@ -21,16 +37,24 @@
       <form>
         <div class="form-group">
           <label for="exampleFormControlInput1">Name</label>
-          <input type="name" class="form-control" id="nameInput" placeholder="First and Last Name">
+          <input type="name" class="form-control" id="nameInput" placeholder="Your First and Last Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Email</label>
+          <input type="name" class="form-control" id="nameInput" placeholder="Your Email">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Name</label>
+          <input type="name" class="form-control" id="recipientName" placeholder="Recipient's First and Last Name">
         </div>
         <div class="form-group">
           <label for="exampleFormControlInput1">Birthdate</label>
-          <input type="birthdate" class="form-control" id="birthdate" placeholder="MM/DD/YYYY">
+          <input type="birthdate" class="form-control" id="birthdate" placeholder="Recipient's MM/DD/YYYY">
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Likes</label>
           <select class="form-control" id="likes">
-            <option placeholder="Choose One"></option>
+            <option selected>Choose One</option>
             <option>Electronics</option>
             <option>Fashion</option>
             <option>Art</option>
@@ -46,8 +70,8 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Dislikes</label>
           <select class="form-control" id="dislikes">
-            <option placeholder="Choose One"></option>
-            <option>Electronics</option>
+              <option selected>Choose One</option>
+              <option>Electronics</option>
             <option>Fashion</option>
             <option>Art</option>
             <option>Home & Garden</option>
@@ -60,16 +84,7 @@
           </select>
         </div>
         <input class="btn btn-primary" id="submit" type="submit" value="Submit">
-      </form>
-
-      
-
-
-
-
-    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
-    <script src="assets/javascript/train.js"></script>
-
+      </form><br>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
@@ -77,7 +92,7 @@
  (function(){
       emailjs.init("user_5PhSrglHUc15780D2cekk");
    })();
-   //var email = "ENTER EMAIL ADDRESS HERE"
+   //var email = "example@email.com"
    var template_params = {
    "user_email": email
 }
@@ -90,8 +105,25 @@ emailjs.send(service_id, template_id, template_params)
     }, function(error) {
        console.log('FAILED...', error);
     });
+    var imgDiv = $("<img>")
+        imgDiv.attr("src", pic);
+        imgDiv.attr("height", "250px");
+        imgDiv.attr("width", "250px");
+
+var a = moment([current]);
+var b = moment([2007, 0, 28]);
+var diffInMs = a.diff(b); // 86400000 milliseconds
+var diffInDays = a.diff(b, 'days'); // 1 day
 
   </script>
+
+
+
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+    <script src="assets/javascript/train.js"></script>
 
     </body>
 
