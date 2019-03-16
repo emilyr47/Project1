@@ -4,23 +4,40 @@
 <head>
 <meta charset="UTF-8">
 <title>First Group Project</title>
+
+<!--Font Awesome-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<!--Google Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+<!--Reset Stylesheet-->
 <link rel="stylesheet" href="assets/css/reset.css">
+
+<!--Bootstrap-->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!--CSS Stylesheet-->
 <link rel="stylesheet" href="assets/css/style.css">
+
+<!--jQuery-->
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+<!--Moment JS-->
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 
 <body>
 
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" id="jumbo">
         <div class="container">
           <h1 class="display-4">Birthday Tracker</h1>
           <p class="lead">Never Be Belated Again!</p>
         </div>
       </div>
 
-
+      <td><a href="results.html" target="_blank"><button" class="btn btn-primary" id="returnToResults"><i class="fas fa-arrow-left"> Return to Results</i></button></a></td>
       <div class="card-group">
         <div class="card">
             <div class="card-header">
@@ -56,13 +73,19 @@
           </div>
         </div>
       </div>
+      
 
 
       
 
 
     <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
-    <script src="assets/javascript/train.js"></script>
+    <script src="assets/javascript/train.js">
+    var imgDiv = $("<img>")
+        imgDiv.attr("src", pic);
+        imgDiv.attr("height", "250px");
+        imgDiv.attr("width", "250px");
+    </script>
 
     </body>
 
