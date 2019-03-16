@@ -39,26 +39,88 @@ body {
      font-family: 'Roboto Slab', serif;
  }
 
+ a:hover {
+    text-decoration: none;
+    color: white;
+ }
+
 /* buttons */
 #addNewPerson {
-    background: grey;
-    color: black;
+    background: rgb(232, 109, 162);
+    color: white;
     font-family: 'Roboto Slab', serif;
     margin-left: 30px;
     width: 500px;
+    border: none;
+    padding: none;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+ }
+
+ #addNewPerson:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s; 
  }
 
 
  #returnToResults { 
+   background-color: rgb(232, 109, 162); 
+   border: none;
+   padding: none;
     margin-left: 15px;
     margin-bottom: 15px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+#returnToResults:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s;
 }
 
 #gifts {
-    background-color: grey; 
+    background-color: rgb(232, 109, 162); 
+    border: none;
+    padding: none;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
 }
 
+#gifts:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s; 
+}
 
+#submit {
+   background-color: rgb(232, 109, 162);
+   border: none;
+   padding: none;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+#submit:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s; 
+}
+
+#offerButton {
+   background-color: rgb(232, 109, 162);
+   border: none;
+   padding: none;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+#offerButton:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s;
+}
 
  .card-header {
     font-family: 'Roboto Slab', serif;
