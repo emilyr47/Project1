@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="assets/css/reset.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 
 <body>
@@ -64,13 +62,36 @@
         <input class="btn btn-primary" id="submit" type="submit" value="Submit">
       </form>
 
-
+      
 
 
 
 
     <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
     <script src="assets/javascript/train.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script type="text/javascript">
+ (function(){
+      emailjs.init("user_5PhSrglHUc15780D2cekk");
+   })();
+   //var email = "ENTER EMAIL ADDRESS HERE"
+   var template_params = {
+   "user_email": email
+}
+
+var service_id = "default_service";
+var template_id = "bday";
+emailjs.send(service_id, template_id, template_params)
+    .then(function(response) {
+       console.log('SUCCESS!', response.status, response.text);
+    }, function(error) {
+       console.log('FAILED...', error);
+    });
+
+  </script>
 
     </body>
 
