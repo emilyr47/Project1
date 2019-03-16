@@ -1,5 +1,6 @@
 body {
-    background-image: url("../images/background.png");
+    background-image: url("../images/background.jpg");
+    background-size: 100%;
  }
 
 .container {
@@ -8,8 +9,10 @@ body {
  
 /* jumbotron for all pages */
  #jumbo {
-    background-color: silver;
-    background-size: 100%;
+    background-image: url("../images/gift.jpg");
+    background-color: white;
+    background-size: 40%;
+    background-repeat: no-repeat;
     color: black;
     font-family: 'Roboto Condensed', sans-serif;
  }
