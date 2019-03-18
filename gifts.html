@@ -93,22 +93,7 @@
 
     </script>
     <script>
-      console.log(keyword)
-      
-    $(function() {
-
-// show account info if #showAccountInfo is present
-showGifts();
-
-// detect url hash changes and fire off showAccountInfo
-$(window).bind("hashchange", showGifts());
-
-});
-
-function showGifts() {
-if (window.location.hash == "load-gifts") 
-    loadGifts();
-}
+     console.log(sessionStorage.keyword)
 </script>
 
     </body>

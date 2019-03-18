@@ -11,14 +11,14 @@
 
   var database = firebase.database();
 
-  $(document).ready(function() {
+  $(document).ready(function() { //This is wrapping the changes to the table in a document ready block. This will wait until the page is done loading and then perform the changes below.
 
   database.ref().on("child_added", function(childSnapshot) {
     function populateBirthdays(){
-        var row = $("<tr>")
+        var row = $("<tr>") //Dynamically creating a new row
         row.attr("style", "text-align: center;")
-       var giftsTd = $("<td>")
-       var giftsButton = $("<button>")
+       var giftsTd = $("<td>") //Dynamically creating a column entry
+       var giftsButton = $("<button>") //Creating a gifts button dynamically and giving it the below attributes
        giftsButton.attr("class", "btn btn-primary")
        giftsButton.attr("class", "gifts")
        giftsButton.attr("data-state", childSnapshot.val().likes)
@@ -27,45 +27,91 @@
        var nameTd = $("<td>")
        var bdayTd = $("<td>")
       var likesTd = $("<td>")
-      var dislikesTd = $("<td>")
       var daysTd = $("<td>")
 
-        nameTd.text(childSnapshot.val().recipientName)
+        nameTd.text(childSnapshot.val().recipientName) //Pulling values for the table / rows from the firebase database
         bdayTd.text(childSnapshot.val().bday)
         likesTd.text(childSnapshot.val().likes)
-        dislikesTd.text(childSnapshot.val().dislikes)
-        daysTd.text(childSnapshot.val().daysTillBday)
+        daysTd.text(childSnapshot.val().nextBirthday)
      
         row.append(giftsTd)
         row.append(nameTd)
         row.append(bdayTd)
         row.append(likesTd)
-        row.append(dislikesTd)
         row.append(daysTd)
         
-        $("#tbody").append(row)
+        $("#tbody").append(row) //Appending the dynamically created rows to the table body.
      }
 
-    populateBirthdays();
+    populateBirthdays(); //Running the above function.
 
  });
-
-function loadGifts(){
-  var queryURL = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=SamReima-Birthday-PRD-f55b8f5d2-3082faa4&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords="+keyword+"&paginationInput.entriesPerPage=10&GLOBAL-ID=EBAY-US&siteid=0"
-  $.ajax({
-        url: queryURL,
-        dataType: "script"
-        })
- console.log("document loaded")
-}
-
- $(document).on("click", ".gifts", function(){
-  location.href = "gifts.html#load-gifts"
-  console.log("Test")
-  var keyword = $(this).attr("data-state")
-  console.log(keyword)
+ 
+ $(document).on("click", ".gifts", function(){ //This is on on click set up for when anything with the class of "gifts" is clicked. (the above button happens to have that)
+  location.href = "gifts.html#load-gifts" //This is linking to our gifts.html. The hashtag after that isn't necessary but I'm keeping it because it looks cool.
+  var keyword = $(this).attr("data-state") //When something with the gifts class is clicked, a keyword will be assigned. We have the datastate set up to what they have selected for "likes".
+  sessionStorage.keyword = keyword //This stores the keyword above into session storage. This means when they close their window / browser it will no longer be stored. We are using this to save values between pages.
+  console.log(keyword) //Console logs the keyword that we are searching for in eBay.
 
 });
+
+  var queryURL = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=SamReima-Birthday-PRD-f55b8f5d2-3082faa4&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords="+sessionStorage.keyword+"&paginationInput.entriesPerPage=10&GLOBAL-ID=EBAY-US&siteid=0"
+  $.ajax({
+        url: queryURL, //Here is the eBay ajax call.
+        dataType: "script"
+        })
+
+        $("#submit").on("click", function(){ //Here is an on click for the submit button on our index page. It pulls the values from the fields and adds a new child in  firebase.
+          event.preventDefault();
+          name = $("#nameInput").val().trim();
+          recipientName = $("#recipientName").val().trim();
+          email = $("#emailInput").val().trim();
+          birthdayNotification = $("#birthdayNotification").val().trim();
+         email = $("#emailInput").val().trim();
+         bday = $("#birthDate").val().trim();
+         likes = $( "#likes option:selected" ).text();
+         dislikes = $( "#dislikes option:selected" ).text();
+
+
+         function daysUntil(bday) { //momentJS birthday function
+          var birthday = moment(bday);
+          
+          var today = moment().format("YYYY-MM-DD");
+          
+          // calculate age of the person
+          var age = moment(today).diff(birthday, 'years');
+          moment(age).format("YYYY-MM-DD");
+          console.log('person age', age);
+          
+          var nextBirthdayMoment = moment(birthday).add(age, 'years');
+          moment(nextBirthdayMoment).format("YYYY-MM-DD");
+          
+          /* added one more year in case the birthday has already passed
+          to calculate date till next one. */
+          if (nextBirthdayMoment.isSame(today)) {
+            return nextBirthdayMoment
+          } else {
+            nextBirthdayMoment = moment(birthday).add(age + 1, 'years');
+            return nextBirthdayMoment.diff(today, 'days');
+          }
+        }
+        
+        var nextBirthday = daysUntil(bday);
+          
+        
+          database.ref().push({ //Pushing values into firebase
+              name: name,
+              email: email,
+              bday: bday,
+              likes: likes,
+              birthdayNotification: birthdayNotification,
+              dislikes: dislikes,
+              recipientName: recipientName,
+             nextBirthday: nextBirthday
+         });
+         location.href = "results.html"; //This will bring us to the results page after the button has been clicked.
+         });
+
 });
     
 
@@ -74,31 +120,7 @@ function loadGifts(){
 
 
 
- $("#submit").on("click", function(){
-  event.preventDefault();
-  name = $("#nameInput").val().trim();
-  email = $("#emailInput").val().trim();
-  recipientName = $("#recipientName").val().trim();
- bday = $("#birthDate").val().trim();
- likes = $( "#likes option:selected" ).text();
- dislikes = $( "#dislikes option:selected" ).text();
-
- var format = "YYYY/MM/DD";
- var convertedDate = moment(bday, format);
- var daysTillBday = Math.abs(moment(convertedDate).diff(moment(), "days"));
-  
-
-  database.ref().push({
-      name: name,
-      email: email,
-      bday: bday,
-      likes: likes,
-      dislikes: dislikes,
-      recipientName: recipientName,
-     daysTillBday: daysTillBday
- });
- location.href = "results.html";
- });
+ 
 
   //(function(){ //Here is the email js function. It stores the API key on the server side and calls with its own function browser side.
     //emailjs.init("user_5PhSrglHUc15780D2cekk");
@@ -140,8 +162,8 @@ function loadGifts(){
    
     if ($("#gift1Image").attr('src') == "") { //Checking through each card to see if there is an image there, and if not, it will fill the card with an image pulled from eBay
     $("#gift1Image").attr("src", pic);
-    $("#gift1Image").attr("height", "250px")
-    $("#gift1Image").attr("height", "250px")
+    $("#gift1Image").attr("height", "200px")
+    $("#gift1Image").attr("height", "200px")
     $("#gift1Image").attr("href", item.viewItemURL)
     $("#giftTitle1").text(title)
     $("#giftPrice1").text("$ " + price)
@@ -150,8 +172,8 @@ function loadGifts(){
 
     else if ($("#gift2Image").attr('src')== "") {
     $("#gift2Image").attr("src", pic);
-    $("#gift2Image").attr("height", "250px")
-   $("#gift2Image").attr("height", "250px")
+    $("#gift2Image").attr("height", "200px")
+   $("#gift2Image").attr("height", "200px")
     $("#gift2Image").attr("href", item.viewItemURL)
     $("#giftTitle2").text(title)
     $("#giftPrice2").text("$ " + price)
@@ -160,8 +182,8 @@ function loadGifts(){
 
     else if ($("#gift3Image").attr('src') == "") {
     $("#gift3Image").attr("src", pic);
-    $("#gift3Image").attr("height", "250px")
-    $("#gift3Image").attr("height", "250px")
+    $("#gift3Image").attr("height", "200px")
+    $("#gift3Image").attr("height", "200px")
     $("#gift3Image").attr("href", item.viewItemURL)
     $("#giftTitle3").text(title)
     $("#giftPrice3").text("$ " + price)
