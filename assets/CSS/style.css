@@ -64,6 +64,21 @@ body {
  }
 
 
+ #returnToResults2 { 
+   background-color: rgb(232, 109, 162); 
+   border: none;
+   padding: none;
+   margin-left: 30px;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+   cursor: pointer;
+   transition: box-shadow 1s;
+}
+
+#returnToResults2:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s;
+}
+
  #returnToResults { 
    background-color: rgb(232, 109, 162); 
    border: none;
