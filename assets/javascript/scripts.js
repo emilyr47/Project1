@@ -11,8 +11,10 @@
 
   var database = firebase.database();
 
-  $(document).ready(function() { //This is wrapping the changes to the table in a document ready block. This will wait until the page is done loading and then perform the changes below.
+  
 
+  $(document).ready(function() { //This is wrapping the changes to the table in a document ready block. This will wait until the page is done loading and then perform the changes below.
+    
   database.ref().on("child_added", function(childSnapshot) {
     function populateBirthdays(){
         var row = $("<tr>") //Dynamically creating a new row
@@ -39,6 +41,28 @@
         row.append(bdayTd)
         row.append(likesTd)
         row.append(daysTd)
+
+        var todayConvert = moment().format("YYYY-MM-DD");
+
+          if (childSnapshot.val().birthdayNotification == todayConvert){ //Checking through each database entry to see if today matches their selected birthday notification, then sends email using function below if it does.
+           (function(){ //Here is the email js function. It stores the API key on the server side and calls with its own function browser side.
+           emailjs.init("user_5PhSrglHUc15780D2cekk");
+            })();
+            var template_params = {
+            "user_email": childSnapshot.val().email,
+            "recipientName": childSnapshot.val().recipientName,
+            "userName": childSnapshot.val().name,
+            "likes": childSnapshot.val().likes
+               }
+              var service_id = "default_service"; //email JS wants to know what service to email from. By default we have the Birthdaytracker365 one.
+              var template_id = "bday"; //A custom template I set up in emailjs.
+              emailjs.send(service_id, template_id, template_params)
+              .then(function(response) {
+              console.log('SUCCESS!', response.status, response.text);
+              }, function(error) {
+              console.log('FAILED...', error);
+              });
+            }
         
         $("#tbody").append(row) //Appending the dynamically created rows to the table body.
      }
@@ -49,7 +73,7 @@
  
  $(document).on("click", ".gifts", function(){ //This is on on click set up for when anything with the class of "gifts" is clicked. (the above button happens to have that)
   location.href = "gifts.html#load-gifts" //This is linking to our gifts.html. The hashtag after that isn't necessary but I'm keeping it because it looks cool.
-  var keyword = $(this).attr("data-state") //When something with the gifts class is clicked, a keyword will be assigned. We have the datastate set up to what they have selected for "likes".
+  var keyword = $(this).attr("data-state") //When something with the gifts class is clicked, a keyword will be assigned. We have the data-state set up to what they have selected for "likes".
   sessionStorage.keyword = keyword //This stores the keyword above into session storage. This means when they close their window / browser it will no longer be stored. We are using this to save values between pages.
   console.log(keyword) //Console logs the keyword that we are searching for in eBay.
 });
@@ -70,11 +94,37 @@ $(document).on("click", ".gift-offer", function(){ //This the on click is for th
           recipientName = $("#recipientName").val().trim();
           email = $("#emailInput").val().trim();
           birthdayNotification = $("#birthdayNotification").val().trim();
-         email = $("#emailInput").val().trim();
+         var email = $("#emailInput").val().trim();
          bday = $("#birthDate").val().trim();
          likes = $( "#likes option:selected" ).text();
          dislikes = $( "#dislikes option:selected" ).text();
 
+         var data = {
+          service_id: 'default_service',
+          template_id: 'welcome',
+          user_id: 'user_5PhSrglHUc15780D2cekk',
+          template_params: {
+            "user_email": email,
+              'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...'
+          }
+      };
+
+      $.when(ajaxMail()).done(function(){ //This was tricky but this is needed so that the results page doesn't load before the email actually sends.
+        location.href = "results.html"; //This will bring us to the results page after the button has been clicked.
+    });
+
+      function ajaxMail(){ //This is the 'send email function' referenced above - again, we need to put it in a  'when done' function so that the scripts waits for the email to actually send.
+      return $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
+          type: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json'
+      }).done(function() {
+          console.log('Your mail is sent!');
+          console.log(data);
+      }).fail(function(error) {
+          console.log('Oops... ' + JSON.stringify(error));
+      });
+    }
 
          function daysUntil(bday) { //momentJS birthday function
           var birthday = moment(bday);
@@ -112,43 +162,17 @@ $(document).on("click", ".gift-offer", function(){ //This the on click is for th
               recipientName: recipientName,
              nextBirthday: nextBirthday
          });
-         location.href = "results.html"; //This will bring us to the results page after the button has been clicked.
          });
 
 });
     
 
- 
-   
 
-
-
- 
-
- // (function(){ //Here is the email js function. It stores the API key on the server side and calls with its own function browser side.
-   // emailjs.init("user_5PhSrglHUc15780D2cekk");
- //})();
- //var email = "ENTER EMAIL ADDRESS HERE"
- //var template_params = {
- //"user_email": email
-//}
-
-//var service_id = "default_service"; //email JS wants to know what service to email from. By default I have the Birthdaytracker365 one.
-//var template_id = "bday"; //A custom template I set up in emailjs.
-//emailjs.send(service_id, template_id, template_params)
-  //.then(function(response) {
-    // console.log('SUCCESS!', response.status, response.text);
-  //}, function(error) {
-    // console.log('FAILED...', error);
-  //});
 
   function _cb_findItemsByKeywords(root) { //This function is needed to define the _cb_findItemsByKeywords function referenced in the JSON (this is specific to eBay's API)
   
   var items = root.findItemsByKeywordsResponse[0].searchResult[0].item || [];
 
-  
- 
-    
     for (var i = 0; i < items.length; ++i)   {
     var item = items[i];
     console.log(item)
@@ -176,7 +200,7 @@ $(document).on("click", ".gift-offer", function(){ //This the on click is for th
     else if ($("#gift2Image").attr('src')== "") {
     $("#gift2Image").attr("src", pic);
     $("#gift2Image").attr("height", "200px")
-   $("#gift2Image").attr("height", "200px")
+    $("#gift2Image").attr("height", "200px")
     $("#gift2Offer").attr("href", item.viewItemURL)
     $("#giftTitle2").text(title)
     $("#giftPrice2").text("$ " + price)
