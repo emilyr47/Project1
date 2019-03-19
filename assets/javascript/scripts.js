@@ -52,7 +52,10 @@
   var keyword = $(this).attr("data-state") //When something with the gifts class is clicked, a keyword will be assigned. We have the datastate set up to what they have selected for "likes".
   sessionStorage.keyword = keyword //This stores the keyword above into session storage. This means when they close their window / browser it will no longer be stored. We are using this to save values between pages.
   console.log(keyword) //Console logs the keyword that we are searching for in eBay.
+});
 
+$(document).on("click", ".gift-offer", function(){ //This the on click is for the "make an offer" buttons (takes user to eBay to view the actual item)
+  location.href = $(this).attr("href");
 });
 
   var queryURL = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=SamReima-Birthday-PRD-f55b8f5d2-3082faa4&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords="+sessionStorage.keyword+"&paginationInput.entriesPerPage=10&GLOBAL-ID=EBAY-US&siteid=0"
@@ -122,8 +125,8 @@
 
  
 
-  //(function(){ //Here is the email js function. It stores the API key on the server side and calls with its own function browser side.
-    //emailjs.init("user_5PhSrglHUc15780D2cekk");
+ // (function(){ //Here is the email js function. It stores the API key on the server side and calls with its own function browser side.
+   // emailjs.init("user_5PhSrglHUc15780D2cekk");
  //})();
  //var email = "ENTER EMAIL ADDRESS HERE"
  //var template_params = {
@@ -164,7 +167,7 @@
     $("#gift1Image").attr("src", pic);
     $("#gift1Image").attr("height", "200px")
     $("#gift1Image").attr("height", "200px")
-    $("#gift1Image").attr("href", item.viewItemURL)
+    $("#gift1Offer").attr("href", item.viewItemURL)
     $("#giftTitle1").text(title)
     $("#giftPrice1").text("$ " + price)
     $("#giftDays1").text(daysLeft + " days left")
@@ -174,7 +177,7 @@
     $("#gift2Image").attr("src", pic);
     $("#gift2Image").attr("height", "200px")
    $("#gift2Image").attr("height", "200px")
-    $("#gift2Image").attr("href", item.viewItemURL)
+    $("#gift2Offer").attr("href", item.viewItemURL)
     $("#giftTitle2").text(title)
     $("#giftPrice2").text("$ " + price)
     $("#giftDays2").text(daysLeft + " days left")
@@ -184,7 +187,7 @@
     $("#gift3Image").attr("src", pic);
     $("#gift3Image").attr("height", "200px")
     $("#gift3Image").attr("height", "200px")
-    $("#gift3Image").attr("href", item.viewItemURL)
+    $("#gift3Offer").attr("href", item.viewItemURL)
     $("#giftTitle3").text(title)
     $("#giftPrice3").text("$ " + price)
     $("#giftDays3").text(daysLeft + " days left")
