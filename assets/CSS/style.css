@@ -95,8 +95,9 @@ body {
    transition: box-shadow 1s;
 }
 
-#gifts {
-    background-color: rgb(232, 109, 162); 
+.gifts {
+    background-color: rgb(232, 109, 162);
+    color: white; 
     border: none;
     padding: none;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
@@ -104,7 +105,7 @@ body {
     transition: box-shadow 1s;
 }
 
-#gifts:hover {
+.gifts:hover {
    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
    transition: box-shadow 1s; 
 }
@@ -123,7 +124,7 @@ body {
    transition: box-shadow 1s; 
 }
 
-#offerButton {
+#gift1Offer {
    background-color: rgb(232, 109, 162);
    border: none;
    padding: none;
@@ -132,7 +133,35 @@ body {
     transition: box-shadow 1s;
 }
 
-#offerButton:hover {
+#gift1Offer:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s;
+}
+
+#gift2Offer {
+   background-color: rgb(232, 109, 162);
+   border: none;
+   padding: none;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+#gift2Offer:hover {
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
+   transition: box-shadow 1s;
+}
+
+#gift3Offer {
+   background-color: rgb(232, 109, 162);
+   border: none;
+   padding: none;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: box-shadow 1s;
+}
+
+#gift3Offer:hover {
    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
    transition: box-shadow 1s;
 }
